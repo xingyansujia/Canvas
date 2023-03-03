@@ -12,17 +12,8 @@ export class Pen {
             throw new Error("Error: Instantiation failed: Use Pen.getInstance() instead of new.");
         }
         Pen._instance = this;
-        this._color = Color['Blue'];
-        this._width = 1;
-        this.resetPosition();
-        this.stauts = {
-            isDrawing: false,
-            isEraser: false
-        };
-        this.ListenerSetup();
-    }
-
-    resetPosition() {
+        this._color = Color['Black'];
+        this._width = 2;
         this.position = {
             current: {
                 x: 0,
@@ -33,15 +24,18 @@ export class Pen {
                 y: 0
             }
         };
+        this.stauts = {
+            isDrawing: false,
+            isEraser: false
+        };
+        this.ListenerSetup();
     }
-
     ListenerSetup() {
         window.addEventListener('pointerdown', (event) => {
             this.stauts.isDrawing = true;
         });
         window.addEventListener('pointerup', (event) => {
             this.stauts.isDrawing = false;
-            this.resetPosition();
         });
         window.addEventListener('pointerover', (event) => {
             this.stauts.isDrawing = false;
@@ -59,9 +53,6 @@ export class Pen {
             this.position.current.y = event.clientY;
             if (event.pointerType == 'pen') {
                 this.width = 2 + (event.pressure - 0.5) * 2;
-            }
-            else {
-                this.width = 1;
             }
             if (this.isDrawing) {
                 Canvas.getInstance().draw();

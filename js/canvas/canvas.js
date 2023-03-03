@@ -41,9 +41,11 @@ export class Canvas {
             this.ctx.beginPath();
             this.ctx.moveTo(last.x, last.y);
             this.ctx.lineTo(cur.x, cur.y);
+            this.ctx.lineCap = 'round';
             this.ctx.lineWidth = this.pen.width;
             this.ctx.strokeStyle = this.pen.color;
             this.ctx.stroke();
+            this.ctx.closePath();
         }
     }
     static getInstance() {
