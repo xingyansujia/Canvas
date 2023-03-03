@@ -1,3 +1,4 @@
+import { lerp, Stack } from "./misc.js";
 import { Pen } from "./pen.js";
 export class Canvas {
     static _instance;
@@ -27,6 +28,7 @@ export class Canvas {
     draw() {
         let last = this.pen.positionLast;
         if (last.x == 0 && last.y == 0) {
+            return;
         }
         let cur = this.pen.positionCurrent;
         let points = new Stack();
@@ -50,39 +52,4 @@ export class Canvas {
         }
         return Canvas._instance;
     }
-}
-class Stack {
-    _items;
-    constructor() {
-        this._items = [];
-    }
-    push(item) {
-        this._items.push(item);
-    }
-    pop() {
-        return this._items.pop();
-    }
-    peek() {
-        return this._items[this._items.length - 1];
-    }
-    isEmpty() {
-        return this._items.length == 0;
-    }
-    clear() {
-        this._items = [];
-    }
-    size() {
-        return this._items.length;
-    }
-    print() {
-        console.log(this._items.toString());
-    }
-}
-//函数 输入 坐标(x, y) 输出 线性插值后的 坐标(x, y)
-//输入: 两个点的坐标(x1, y1) (x2, y2) 以及插值的位置t
-//输出: 插值后的坐标(x, y)
-function lerp(cur, last, t) {
-    let x = cur.x + (last.x - cur.x) * t;
-    let y = cur.y + (last.y - cur.y) * t;
-    return { x, y };
 }

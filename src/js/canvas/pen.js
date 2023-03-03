@@ -1,5 +1,5 @@
 import { Canvas } from "./canvas.js";
-import { Color } from "./color.js";
+import { Color } from "./misc.js";
 export class Pen {
     _color;
     _width;
@@ -12,7 +12,7 @@ export class Pen {
             throw new Error("Error: Instantiation failed: Use Pen.getInstance() instead of new.");
         }
         Pen._instance = this;
-        this._color = Color['black'];
+        this._color = Color['Blue'];
         this._width = 1;
         this.position = {
             current: {
@@ -28,6 +28,9 @@ export class Pen {
             isDrawing: false,
             isEraser: false
         };
+        this.ListenerSetup();
+    }
+    ListenerSetup() {
         window.addEventListener('pointerdown', (event) => {
             this.stauts.isDrawing = true;
         });
@@ -37,6 +40,12 @@ export class Pen {
         window.addEventListener('pointerover', (event) => {
             this.stauts.isDrawing = false;
         });
+        window.addEventListener('pointerleave', (event) => {
+            this.stauts.isDrawing = false;
+        });
+        window.addEventListener('pointerout', (event) => {
+            this.stauts.isDrawing = false;
+        });
         window.addEventListener('pointermove', (event) => {
             this.position.last.x = this.position.current.x;
             this.position.last.y = this.position.current.y;
@@ -44,6 +53,9 @@ export class Pen {
             this.position.current.y = event.clientY;
             if (event.pointerType == 'pen') {
                 this.width = 2 + (event.pressure - 0.5) * 2;
+            }
+            else {
+                this.width = 1;
             }
             if (this.isDrawing) {
                 Canvas.getInstance().draw();
