@@ -14,6 +14,14 @@ export class Pen {
         Pen._instance = this;
         this._color = Color['Black'];
         this._width = 2;
+        this.resetPosition();
+        this.stauts = {
+            isDrawing: false,
+            isEraser: false
+        };
+        this.ListenerSetup();
+    }
+    resetPosition() {
         this.position = {
             current: {
                 x: 0,
@@ -24,11 +32,6 @@ export class Pen {
                 y: 0
             }
         };
-        this.stauts = {
-            isDrawing: false,
-            isEraser: false
-        };
-        this.ListenerSetup();
     }
     ListenerSetup() {
         window.addEventListener('pointerdown', (event) => {
@@ -36,6 +39,7 @@ export class Pen {
         });
         window.addEventListener('pointerup', (event) => {
             this.stauts.isDrawing = false;
+            this.resetPosition();
         });
         window.addEventListener('pointerover', (event) => {
             this.stauts.isDrawing = false;
@@ -45,6 +49,7 @@ export class Pen {
         });
         window.addEventListener('pointerout', (event) => {
             this.stauts.isDrawing = false;
+            this.resetPosition();
         });
         window.addEventListener('pointermove', (event) => {
             this.position.last.x = this.position.current.x;
