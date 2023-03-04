@@ -1,4 +1,5 @@
 import { Canvas } from "./canvas.js";
+import { Dock } from "./dock.js";
 import { Color } from "./misc.js";
 export class Pen {
     _color;
@@ -35,11 +36,13 @@ export class Pen {
     }
     ListenerSetup() {
         window.addEventListener('pointerdown', (event) => {
+            //检测点击元素
             this.stauts.isDrawing = true;
         });
         window.addEventListener('pointerup', (event) => {
             this.stauts.isDrawing = false;
             this.resetPosition();
+            /*             Canvas.getInstance().save(); */
         });
         window.addEventListener('pointerover', (event) => {
             this.stauts.isDrawing = false;
@@ -57,10 +60,20 @@ export class Pen {
             this.position.current.x = event.clientX;
             this.position.current.y = event.clientY;
             if (event.pointerType == 'pen') {
-                this.width = 2 + (event.pressure - 0.5) * 2;
+                this.width = 10 + (event.pressure - 0.5) * 40;
             }
             if (this.isDrawing) {
                 Canvas.getInstance().draw();
+            }
+        });
+        //鼠标滚轮
+        window.addEventListener('wheel', (event) => {
+            this.width += event.deltaY / 100;
+            if (this.width < 1) {
+                this.width = 1;
+            }
+            if (this.width > 50) {
+                this.width = 50;
             }
         });
     }
@@ -79,6 +92,7 @@ export class Pen {
     }
     set width(width) {
         this._width = width;
+        Dock.getInstance().widthInput.value = this.width;
     }
     get width() {
         return this._width;

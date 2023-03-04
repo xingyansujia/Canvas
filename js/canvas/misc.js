@@ -46,3 +46,31 @@ export function lerp(cur, last, t) {
     let y = cur.y + (last.y - cur.y) * t;
     return { x, y };
 }
+//class Queue c++ pop
+export class Queue {
+    _items;
+    constructor() {
+        this._items = [];
+    }
+    push(item) {
+        this._items.push(item);
+    }
+    pop() {
+        return this._items.shift();
+    }
+    peek() {
+        return this._items[0];
+    }
+    isEmpty() {
+        return this._items.length == 0;
+    }
+    clear() {
+        this._items = [];
+    }
+    size() {
+        return this._items.length;
+    }
+    print() {
+        console.log(this._items.toString());
+    }
+}
